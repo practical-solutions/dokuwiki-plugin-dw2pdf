@@ -514,6 +514,18 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
             if($counter < $no_pages) {
                 $pagehtml .= '<pagebreak />';
             }
+            
+            # ------------------------------------------------------ #
+			# Modifikation: Gero Gothe
+			# Nummerierung der Kapitel
+			# ------------------------------------------------------ #
+			if ($no_pages>1) { # Nur bei zusammengesetzten Dokumenten
+				$headings = number_headings($pagehtml,$counter-1);
+				foreach ($headings as $h) {
+					$pagehtml = str_replace($h['old'],$h['new'],$pagehtml);
+				}
+			}
+			# ------------------------------------------------------ #
 
             $mpdf->WriteHTML($pagehtml, 2, false, false); //intermediate body html
             if($isDebug) {
