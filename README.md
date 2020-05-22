@@ -6,7 +6,7 @@ Aktuell mit folgenden Zusatzfunktionen:
 
 * Coverseiten können im Admin-Bereich hinzugefügt werden
 * Nummerierte Kapitelüberschriften
-* Option, um generierte PDF direkt als E-Mail zu verschicken: <pdfmail [E-Mail-Adresse]>
+* Option, um generierte PDF direkt als E-Mail zu verschicken: ``<pdfmail [E-Mail-Adresse] [Bezeichnung]>``
 
 ## Veränderungen
 
@@ -24,3 +24,9 @@ Folgende Dateien ersetzen die Orginale:
 * ``conf/default.php``
 * ``conf/metadata.php``
 * ``lang/de/settings.php``
+
+## Geplant
+
+* E-Mail-Funktion wieder entfernen -> Entwicklung eines alternativen Plugins
+* Coverseiten automatisch einbinden, wenn eine Seite ``cover`` heißt
+* Wechselwirkung mit dem Approve-Plugin: Nur freigegebene Seiten in Sammlungen einbinden!
