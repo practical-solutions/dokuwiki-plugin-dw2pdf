@@ -468,6 +468,21 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
         $body_start .= '<div class="dokuwiki">';
 
         // insert the cover page
+
+        # ------------------------------------------------------ #
+        # Modifikation: Gero Gothe
+        # Cover einfügen, wenn eine Seite "cover" heißt
+        # ------------------------------------------------------ #
+        $coverpage = false;
+        foreach($this->list as $page) {
+            if (strpos($page,'cover') === strlen($page)-5) {
+                $coverpage = $page;
+                break;
+            }
+        }
+        if ($coverpage!==false) $body_start .= $this->p_wiki_dw2pdf($coverpage, $rev, $date_at);
+        # ------------------------------------------------------ #
+
         $body_start .= $template['cover'];
 
         $mpdf->WriteHTML($body_start, 2, true, false); //start body html
@@ -497,24 +512,32 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
         
         # ------------------------------------------------------ #
         # Modifikation: Gero Gothe
-        # Einbindung der Funktion zum Filtern von Überschriften
         # ------------------------------------------------------ #
-        include_once __DIR__."/modifications.php";
+        include_once __DIR__."/modifications.php"; # Einbindung der Funktion zum Filtern von Überschriften
         # ------------------------------------------------------ #
         
         foreach($this->list as $page) {
-            $counter++;
+            # ------------------------------------------------------ #
+            # Modifikation: Gothe
+            # ------------------------------------------------------ #
+            // Startseiten aus Zusammenstellungen entfernen mittels GET-Parameter: excludestart
+            if (isset($_GET["excludestart"]) && strpos($page,'start') === strlen($page)-5) continue;
+            if ($page === $coverpage) continue; # Doppelung vermeiden!
+            # ------------------------------------------------------ #
 
             $pagehtml = $this->p_wiki_dw2pdf($page, $rev, $date_at);
             //file doesn't exists
             if($pagehtml == '') {
                 continue;
             }
+
+            $counter++; # Gothe: Inkrement verschoben, damit Kapitelnummerierung passt (numbered headings)
+
             $pagehtml .= $this->page_depend_replacements($template['cite'], $page);
             if($counter < $no_pages) {
                 $pagehtml .= '<pagebreak />';
             }
-            
+
             # ------------------------------------------------------ #
 			# Modifikation: Gero Gothe
 			# Nummerierung der Kapitel
@@ -539,27 +562,6 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
         $body_end .= '</div>';
 
         $mpdf->WriteHTML($body_end, 2, false, true); // finish body html
-        
-        # ------------------------------------------------------ #
-        # Modifikation: Gero Gothe
-        # Einfügen eines Deckblatts, wenn in der Konfiguration
-        # angegeben
-        # ------------------------------------------------------ #
-        $cover_list = explode(',',$this->getConf('covers')); # Liste aus der Konfiguration lesen
-        $covers = Array();
-        
-        # Sortieren in der Form $covers["Überschrift"] = pageid
-        foreach ($cover_list as $cov) {
-			list($key, $value) = array_map('trim',explode('=',$cov));
-			$covers[$key] = $value;
-		}
-        
-        # Ausgabe des Deckblatts, falls für dieses Dokument eingestellt
-        if (array_key_exists($this->title,$covers)) {
-			$pagehtml = $this->p_wiki_dw2pdf($covers[$this->title], $rev, $date_at);        
-			$mpdf->WriteHTML($pagehtml, 2, true, false); # mPDF start body html
-		}       
-        # ------------------------------------------------------ #
         
         if($isDebug) {
             $html .= $body_end;

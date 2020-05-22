@@ -4,9 +4,10 @@ Individuelle Fassung des dw2pdf-Plugins, welches mit dem orginal abgeglichen wir
 
 Aktuell mit folgenden Zusatzfunktionen:
 
-* Coverseiten können im Admin-Bereich hinzugefügt werden
+* Coverseiten werden automatisch eingefügt (wenn eine Seite "cover" heißt, wird sie automatisch als Deckblatt verwendet)
 * Nummerierte Kapitelüberschriften
 * Option, um generierte PDF direkt als E-Mail zu verschicken: ``<pdfmail [E-Mail-Adresse] [Bezeichnung]>``
+* GET-Parameter ``exludestart=<yes>`` eingefügt: Startseiten werden bei Zusammenstellungen nicht miteinbezogen
 
 ## Veränderungen
 
@@ -21,12 +22,8 @@ Aktuell mit folgenden Zusatzfunktionen:
 Folgende Dateien ersetzen die Orginale:
 * ``plugin.info.text``
 * ``action.php``
-* ``conf/default.php``
-* ``conf/metadata.php``
-* ``lang/de/settings.php``
 
 ## Geplant
 
 * E-Mail-Funktion wieder entfernen -> Entwicklung eines alternativen Plugins
-* Coverseiten automatisch einbinden, wenn eine Seite ``cover`` heißt
 * Wechselwirkung mit dem Approve-Plugin: Nur freigegebene Seiten in Sammlungen einbinden!
