@@ -502,14 +502,47 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
         include_once __DIR__."/modifications.php";
         # ------------------------------------------------------ #
         
+        # ------------------------------------------------------ #
+        # Modifikation: Gero Gothe
+        # Einbindung des Approve-Plugins
+        # ------------------------------------------------------ #
+        try {
+            /** @var \helper_plugin_approve_db $db_helper */
+            $db_helper = plugin_load('helper', 'approve_db');
+            $sqlite = $db_helper->getDB();
+        } catch (Exception $e) {
+            $use_approve = false;
+        }
+        if ($user_approve !== false) $helper = plugin_load('helper', 'approve');
+        $pages_without_approve = Array();
+        # ------------------------------------------------------ #
+        
+        
         foreach($this->list as $page) {
-            $counter++;
-
+            
+            # ------------------------------------------------------ #
+            # Modifikation: Gothe
+            # Einbindung des Approve-Plugins: Es wird die letzte 
+            # freigegebene Fassung verwendet (bei Zusammenstellungen!)
+            # ------------------------------------------------------ #
+            if ($no_pages>1 && $use_approve !== false) {
+                $rev = $helper->find_last_approved($sqlite, $page);
+                //no page is approved
+                if (!$rev) {
+                    $pages_without_approve[] = p_get_first_heading($page). " ($page)";
+                    continue;
+                }
+            }
+            # ------------------------------------------------------ #
             $pagehtml = $this->p_wiki_dw2pdf($page, $rev, $date_at);
             //file doesn't exists
             if($pagehtml == '') {
                 continue;
             }
+            
+            # Gothe: Increment moved on
+            $counter++;
+            
             $pagehtml .= $this->page_depend_replacements($template['cite'], $page);
             if($counter < $no_pages) {
                 $pagehtml .= '<pagebreak />';
@@ -561,6 +594,17 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
 		}       
         # ------------------------------------------------------ #
         
+        # ------------------------------------------------------ #
+        # Modifikation: Gothe
+        # Einbindung des Approve-Plugins: Ausgabe einer Liste
+        # von nicht freigegebenen Dokumenten am Ende
+        # ------------------------------------------------------ #
+        if ($no_pages>1 && $use_approve !== false) {
+            $pagehtml = '<h1>Fehlende Kapitel (keine Freigabe)</h1> <br> Seiten, welche keine Freigabe haben und deswegen nicht integriert sind: <br><br>- '. (implode('<br>- ',$pages_without_approve))."<pagebreak />";
+            $mpdf->WriteHTML($pagehtml, 2, false, false);
+        }
+        # ------------------------------------------------------ #
+
         if($isDebug) {
             $html .= $body_end;
             $html .= '</body>';

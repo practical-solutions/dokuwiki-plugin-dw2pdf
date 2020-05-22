@@ -7,6 +7,7 @@ Aktuell mit folgenden Zusatzfunktionen:
 * Coverseiten können im Admin-Bereich hinzugefügt werden
 * Nummerierte Kapitelüberschriften
 * Option, um generierte PDF direkt als E-Mail zu verschicken: ``<pdfmail [E-Mail-Adresse] [Bezeichnung]>``
+* Bei Zusammenstellungen: Es werden NUR freigegebene Dokumente verwendet!
 
 ## Veränderungen
 
@@ -29,4 +30,3 @@ Folgende Dateien ersetzen die Orginale:
 
 * E-Mail-Funktion wieder entfernen -> Entwicklung eines alternativen Plugins
 * Coverseiten automatisch einbinden, wenn eine Seite ``cover`` heißt
-* Wechselwirkung mit dem Approve-Plugin: Nur freigegebene Seiten in Sammlungen einbinden!
