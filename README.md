@@ -8,6 +8,7 @@ Aktuell mit folgenden Zusatzfunktionen:
 * Nummerierte Kapitelüberschriften
 * Option, um generierte PDF direkt als E-Mail zu verschicken: ``<pdfmail [E-Mail-Adresse] [Bezeichnung]>``
 * GET-Parameter ``exludestart=<yes>`` eingefügt: Startseiten werden bei Zusammenstellungen nicht miteinbezogen
+* Bei Zusammenstellungen: Es werden NUR freigegebene Dokumente verwendet!
 
 ## Veränderungen
 
@@ -27,4 +28,5 @@ Folgende Dateien ersetzen die Orginale:
 
 * E-Mail-Funktion wieder entfernen -> Entwicklung eines alternativen Plugins
 * Wechselwirkung mit dem Approve-Plugin: Nur freigegebene Seiten in Sammlungen einbinden!
-* Alle "cover"-Seiten ausschließen? -> per config oder GET-Parameter?
+* Coverseiten automatisch einbinden, wenn eine Seite ``cover`` heißt
+
