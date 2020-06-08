@@ -26,3 +26,15 @@
 [dir=rtl] #dokuwiki__pagetools ul li a.export_pdf:focus {
     background-position: left -45px;
 }
+
+/******************************************************************************** 
+Show warning to prevent overwriting of this fork of dw2pdf
+*********************************************************************************/
+#extensionplugin__dw2pdf .button.reinstall {display:none;}
+#extensionplugin__dw2pdf .button.update {display:none;}
+#extensionplugin__dw2pdf .button.uninstall {display:none;}
+#extensionplugin__dw2pdf .msg.notify {display:none;}
+
+#extensionplugin__dw2pdf .actions.col {color:red;}
+#extensionplugin__dw2pdf .actions.col:before{content: "Do not upgrade here! Install this fork directly from GitHub (see documentation)";}
+/********************************************************************************/
