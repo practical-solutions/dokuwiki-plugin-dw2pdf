@@ -27,3 +27,4 @@ Folgende Dateien ersetzen die Orginale:
 
 * E-Mail-Funktion wieder entfernen -> Entwicklung eines alternativen Plugins
 * Wechselwirkung mit dem Approve-Plugin: Nur freigegebene Seiten in Sammlungen einbinden!
+* Alle "cover"-Seiten ausschließen? -> per config oder GET-Parameter?

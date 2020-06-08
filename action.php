@@ -476,8 +476,8 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
         $coverpage = false;
         foreach($this->list as $page) {
             if (strpos($page,'cover') === strlen($page)-5) {
-                $coverpage = $page;
-                break;
+                # Immer den kürzeren nehmen unter der Annahme, dass dies der im untersten Namensraum ist (im Einzelfall wird das nicht so sein...)
+                if (strlen($page)<strlen($coverpage)) $coverpage = $page;
             }
         }
         if ($coverpage!==false) $body_start .= $this->p_wiki_dw2pdf($coverpage, $rev, $date_at);
