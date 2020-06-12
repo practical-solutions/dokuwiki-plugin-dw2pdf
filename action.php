@@ -631,26 +631,6 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
      * @param string $cachefile
      */
     protected function sendPDFFile($cachefile) {
-        # ------------------------------------------------------ #
-        # Modifikation: Gero Gothe
-        # Versenden einer E-Mail / temporäre Lösung
-        # ------------------------------------------------------ #
-        if (isset($_GET["pdfmail"])){
-            global $ID;
-
-            $mail = new Mailer();
-            $mail->to($_GET["pdfmail"]);
-            $mail->subject('Automatischer PDF-Versand: '.$ID);
-            $mail->setBody("Bitte solche Anhänge nur öffnen, wenn Sie diese auch erwarten.\n\nKKH Gruenstadt / Automatischer PDF-Versand");
-            $mail->attachFile($cachefile,"application/pdf","$ID.pdf");
-            $mail->send();
-
-            $loc = DOKU_URL."doku.php?id=$ID";
-            print "Email wurde verschickt.";
-            exit;
-           }
-        # ------------------------------------------------------ #
-
         header('Content-Type: application/pdf');
         header('Cache-Control: must-revalidate, no-transform, post-check=0, pre-check=0');
         header('Pragma: public');
