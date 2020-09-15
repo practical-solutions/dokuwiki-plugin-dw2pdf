@@ -8,6 +8,7 @@ Aktuell mit folgenden Zusatzfunktionen:
 * Nummerierte Kapitelüberschriften
 * GET-Parameter ``exludestart=<yes>`` eingefügt: Startseiten werden bei Zusammenstellungen nicht miteinbezogen
 * Bei Zusammenstellungen: Es werden NUR freigegebene Dokumente verwendet!
+  * Erkennung von Approve- und ApprovePlus-Plugin
 
 ## Veränderungen
 
@@ -21,3 +22,11 @@ Aktuell mit folgenden Zusatzfunktionen:
 Folgende Dateien sind modifiziert:
 * ``plugin.info.text``
 * ``action.php``
+
+## Kompatibilität
+
+Getestet mit
+* DokuWiki/**Hogfather**
+* PHP **7.3**
+
+Aktuelle gemerged mit dem Orginal dw2pdf/**2020-05-11**

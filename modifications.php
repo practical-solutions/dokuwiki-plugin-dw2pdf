@@ -1,20 +1,4 @@
 <?php
-/* ---------------------------------------------------------------------
-
-Gero Gothe, Version 1.1 / 10.07.2019
-
-Änderungen:
------------
-- Umbenennen dieser Datei in modifications.php
-
-
-Versionen
----------
-1.0 - Funktion zur Seitennummerierung 
-
------------------------------------------------------------------------- */
-
-
 /* 
 Funktion zur Kapitellnummerierung
 

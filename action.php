@@ -530,15 +530,20 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
         # ------------------------------------------------------ #
         # Modifikation: Gero Gothe
         # Einbindung des Approve-Plugins
-        # ------------------------------------------------------ #
+        # ------------------------------------------------------ #        
         try {
             /** @var \helper_plugin_approve_db $db_helper */
             $db_helper = plugin_load('helper', 'approve_db');
-            $sqlite = $db_helper->getDB();
+            if (!$db_helper) {$use_approve = false;} else $sqlite = $db_helper->getDB();
         } catch (Exception $e) {
             $use_approve = false;
         }
-        if ($user_approve !== false) $helper = plugin_load('helper', 'approve');
+        if ($use_approve !== false) $helper = plugin_load('helper', 'approve');
+        
+        # ApprovePlus wegen Block Funktion laden
+        $ap_hlp = plugin_load('action', 'approveplus_totalblock');
+        if (!ap_hlp) {$use_approve_plus = false;} else $use_approve_plus = true;
+        
         $pages_without_approve = Array();
         # ------------------------------------------------------ #
         
@@ -558,17 +563,34 @@ class action_plugin_dw2pdf extends DokuWiki_Action_Plugin {
             # Einbindung des Approve-Plugins: Es wird die letzte 
             # freigegebene Fassung verwendet (bei Zusammenstellungen!)
             # ------------------------------------------------------ #
-            if ($no_pages>1 && $use_approve !== false) {
-                $rev = $helper->find_last_approved($sqlite, $page);
-                //no page is approved
-                if (!$rev) {
-                    $pages_without_approve[] = p_get_first_heading($page). " ($page)";
-                    continue;
+            if ($use_approve !== false) {
+                if ($use_approve_plus && $ap_hlp->blocked($page)) {$rev = false;} else {
+                    $rev = $helper->find_last_approved($sqlite, $page);
+                }
+                
+                if ($no_pages > 1) {
+                    
+                    //no page is approved or page is blocked
+                    if (!$rev) {
+                        $pages_without_approve[] = p_get_first_heading($page). " ($page)";
+                        continue;
+                    }
                 }
             }
             # ------------------------------------------------------ #
 
             $pagehtml = $this->p_wiki_dw2pdf($page, $rev, $date_at);
+            
+            # ------------------------------------------------------ #
+            # Modifikation: Gothe
+            # Einzelne Seiten werden nicht ausgegeben, wenn sie
+            # nicht freigegeben (Approve) oder blockiert (ApprovePlus) sind
+            # ------------------------------------------------------ #
+            if ($use_approve!==false && !$rev && $no_pages == 1) {
+                header('Location: ' . wl($page));
+            }
+            # ------------------------------------------------------ #
+            
             //file doesn't exists
             if($pagehtml == '') {
                 continue;
