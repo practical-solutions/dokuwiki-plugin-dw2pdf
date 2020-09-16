@@ -28,5 +28,7 @@ Folgende Dateien sind modifiziert:
 Getestet mit
 * DokuWiki/**Hogfather**
 * PHP **7.3**
+* Approve-Plugin Version **2020-07-18**
+* Approve-Plus-Plugin Version **2020-09-16**
 
 Aktuelle gemerged mit dem Orginal dw2pdf/**2020-05-11**

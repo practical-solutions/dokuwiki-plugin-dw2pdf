@@ -1,8 +1,8 @@
 base    dw2pdf
 author  Gero Gothe (Andreas Gohr and Luigi Micco)
 email   gero.gothe@gmail.com
-date    2020-09-15
+date    2020-09-16
 name    Dw2Pdf plugin / Modifizierte Fassung
-desc    DokuWiki to PDF converter
+desc    DokuWiki to PDF converter [2020-09-16]
 url     https://github.com/practical-solutions/dokuwiki-plugin-dw2pdf
 
